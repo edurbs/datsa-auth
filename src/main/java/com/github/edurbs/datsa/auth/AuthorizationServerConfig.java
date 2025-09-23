@@ -30,15 +30,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             .inMemory()
                 .withClient("datsa-web") // client identifier
                 .secret(passwordEncoder.encode("123")) // password
-                .authorizedGrantTypes("password", "refresh_token") // authentication flow
+                .authorizedGrantTypes("password", "refresh_token") // password with refresh token flow
                 .scopes("write", "read")
                 .accessTokenValiditySeconds(5) // 15 minutes to access token expiration
                 .refreshTokenValiditySeconds(10) // 12 hours refresh token
             .and()
-                .withClient("other-backend") // client identifier
-                .secret(passwordEncoder.encode("123")) // password
-                .authorizedGrantTypes("client_credentials") // authentication flow
+                .withClient("other-backend") 
+                .secret(passwordEncoder.encode("123")) 
+                .authorizedGrantTypes("client_credentials") // client without user flow
                 .scopes("write", "read")
+            .and()
+                .withClient("datsa-analytics") // client identifier
+                .secret(passwordEncoder.encode("123")) // password
+                .authorizedGrantTypes("authorization_code") // authorization code flow
+                .scopes("write", "read")
+                .redirectUris("http://localhost") // in production must be https and use real client URL
             .and()
                 .withClient("checktoken")
                 .secret(passwordEncoder.encode("web123"));
