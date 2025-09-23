@@ -33,7 +33,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         //security.checkTokenAccess("isAuthenticated()"); // allow only with basic authentication
-        security.checkTokenAccess("isAuthenticated()"); // allow all without any authentication
+        security.checkTokenAccess("permitAll()"); // allow all without any authentication
     }
 
     @Override
