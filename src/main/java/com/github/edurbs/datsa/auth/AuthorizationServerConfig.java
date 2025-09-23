@@ -46,6 +46,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("write", "read")
                 .redirectUris("http://localhost") // in production must be https and use real client URL
             .and()
+                .withClient("webadmin") // client identifier
+                .authorizedGrantTypes("implicit") // implicit authorization flow
+                .scopes("write", "read")
+                .redirectUris("http://localhost") 
+            .and()
                 .withClient("checktoken")
                 .secret(passwordEncoder.encode("web123"));
     }
