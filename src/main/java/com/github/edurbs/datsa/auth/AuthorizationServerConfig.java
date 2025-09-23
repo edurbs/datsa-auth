@@ -26,16 +26,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
+        clients
+            .inMemory()
                 .withClient("datsa-web") // client identifier
                 .secret(passwordEncoder.encode("123")) // password
                 .authorizedGrantTypes("password", "refresh_token") // authentication flow
                 .scopes("write", "read")
                 .accessTokenValiditySeconds(5) // 15 minutes to access token expiration
                 .refreshTokenValiditySeconds(10) // 12 hours refresh token
-	.and()
-		.withClient("checktoken")
-		.secret(passwordEncoder.encode("web123"));
+            .and()
+                .withClient("other-backend") // client identifier
+                .secret(passwordEncoder.encode("123")) // password
+                .authorizedGrantTypes("client_credentials") // authentication flow
+                .scopes("write", "read")
+            .and()
+                .withClient("checktoken")
+                .secret(passwordEncoder.encode("web123"));
     }
 
     @Override
