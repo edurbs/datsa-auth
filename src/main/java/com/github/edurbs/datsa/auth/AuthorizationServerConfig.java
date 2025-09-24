@@ -46,10 +46,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("write", "read")
             .and()
                 .withClient("datsa-analytics") // client identifier
-                .secret(passwordEncoder.encode("123")) // password
+                .secret(passwordEncoder.encode("")) // password
                 .authorizedGrantTypes("authorization_code") // authorization code flow with PKCE support
                 .scopes("write", "read")
-                .redirectUris("http://localhost") // in production must be https and use real client URL
+                .redirectUris("http://localhost:8081") // in production must be https and use real client URL
             .and()
                 .withClient("webadmin") // client identifier
                 .authorizedGrantTypes("implicit") // implicit authorization flow
@@ -63,7 +63,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         //security.checkTokenAccess("isAuthenticated()"); // allow only with basic authentication
-        security.checkTokenAccess("permitAll()"); // allow all without any authentication
+        security.checkTokenAccess("permitAll()") // allow all without any authentication
+            .allowFormAuthenticationForClients(); // allow client_id in body without basic auth.
     }
 
     @Override
