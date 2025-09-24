@@ -34,6 +34,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtKeyStoreProperties jwtKeyStoreProperties;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
@@ -87,9 +90,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         // command to generate the keystore
         // keytool -genkeypair -alias datsa -keyalg RSA -keypass 123456 -keystore datsa.jks -storepass 123456 -validity 3650
-        ClassPathResource jksResource = new ClassPathResource("keystores/datsa.jks"); // keystore file
-        String keyStorePass = "123456"; // password to open the keystore
-        String keyPairAlias = "datsa"; // key name
+        ClassPathResource jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath()); // keystore file
+        String keyStorePass = jwtKeyStoreProperties.getPassword(); // password to open the keystore
+        String keyPairAlias = jwtKeyStoreProperties.getKeypairAlias(); // key name
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
         KeyPair keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias); // get the key
         jwtAccessTokenConverter.setKeyPair(keyPair);
