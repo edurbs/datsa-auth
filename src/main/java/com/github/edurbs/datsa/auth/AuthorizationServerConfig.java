@@ -3,6 +3,7 @@ package com.github.edurbs.datsa.auth;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -73,7 +75,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             .authenticationManager(authenticationManager) // only the password flow needs this
             .userDetailsService(userDetailsService)
             .reuseRefreshTokens(false) // must not reuse refresh tokens
+            .accessTokenConverter(jwtAccessTokenConverter()) // generate JWT tokens (instead of opaque tokens)
             .tokenGranter(tokenGranter(endpoints));
+    }
+
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter(){
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey("secretKey");
+        return jwtAccessTokenConverter;
     }
 
 	private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
