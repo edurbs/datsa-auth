@@ -1,4 +1,4 @@
-package com.github.edurbs.datsa.auth;
+package com.github.edurbs.datsa.auth.core;
 
 import java.security.KeyPair;
 import java.util.Arrays;

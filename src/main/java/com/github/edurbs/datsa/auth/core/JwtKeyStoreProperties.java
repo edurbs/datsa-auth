@@ -1,4 +1,4 @@
-package com.github.edurbs.datsa.auth;
+package com.github.edurbs.datsa.auth.core;
 
 import javax.validation.constraints.NotBlank;
 
