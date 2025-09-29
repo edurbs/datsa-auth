@@ -1,8 +1,11 @@
 package com.github.edurbs.datsa.auth.core;
 
-import java.util.Collections;
+import java.util.Collection;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import com.github.edurbs.datsa.auth.domain.MyUser;
 
 import lombok.Getter;
 
@@ -11,8 +14,8 @@ public class AuthUser extends User {
     private String fullName;
     private String email;
     private Long userId;
-    public AuthUser(com.github.edurbs.datsa.auth.domain.User myUser){
-        super(myUser.getEmail(), myUser.getPassword(), Collections.emptyList());
+    public AuthUser(MyUser myUser, Collection<? extends GrantedAuthority> authorities){
+        super(myUser.getEmail(), myUser.getPassword(), authorities);
         this.fullName = myUser.getName();
         this.userId = myUser.getId();
     }
