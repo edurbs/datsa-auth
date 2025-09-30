@@ -29,6 +29,10 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    private static final String READ = "READ";
+
+    private static final String WRITE = "WRITE";
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -48,24 +52,24 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("datsa-web") // client identifier
                 .secret(passwordEncoder.encode("123")) // password
                 .authorizedGrantTypes("password", "refresh_token") // password with refresh token flow
-                .scopes("write", "read")
+                .scopes(WRITE, READ)
                 .accessTokenValiditySeconds(60*15) // 15 minutes to access token expiration
                 .refreshTokenValiditySeconds(60*60*12) // 12 hours refresh token
             .and()
                 .withClient("other-backend") 
                 .secret(passwordEncoder.encode("123")) 
                 .authorizedGrantTypes("client_credentials") // client without user flow
-                .scopes("write", "read")
+                .scopes(WRITE, READ)
             .and()
                 .withClient("datsa-analytics") // client identifier
                 .secret(passwordEncoder.encode("")) // password
                 .authorizedGrantTypes("authorization_code") // authorization code flow with PKCE support
-                .scopes("write", "read")
+                .scopes(WRITE, READ)
                 .redirectUris("http://localhost:8081") // in production must be https and use real client URL
             .and()
                 .withClient("webadmin") // client identifier
                 .authorizedGrantTypes("implicit") // implicit authorization flow
-                .scopes("write", "read")
+                .scopes(WRITE, READ)
                 .redirectUris("http://localhost") 
             .and()
                 .withClient("checktoken")
