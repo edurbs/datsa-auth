@@ -49,7 +49,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
-<<<<<<< HEAD
 
         // .inMemory()
         // .withClient("datsa-web") // client identifier
@@ -80,8 +79,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // .and()
         // .withClient("checktoken")
         // .secret(passwordEncoder.encode("web123"));
-=======
->>>>>>> 959811a (add: auth user to tb)
     }
 
     @Override
